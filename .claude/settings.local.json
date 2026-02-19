@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(claude doctor)",
+      "Bash(npm install:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(xargs:*)",
+      "Bash(xcrun simctl:*)",
+      "Bash(open:*)",
+      "Bash(xcodebuild:*)",
+      "Bash(gh auth:*)",
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git remote add:*)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)",
+      "Bash(git remote set-url:*)",
+      "Bash(gh api:*)",
+      "Bash(git pull:*)",
+      "Bash(FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
