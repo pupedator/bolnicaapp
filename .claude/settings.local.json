@@ -18,7 +18,18 @@
       "Bash(git remote set-url:*)",
       "Bash(gh api:*)",
       "Bash(git pull:*)",
-      "Bash(FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch:*)"
+      "Bash(FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch:*)",
+      "Bash(~/.zshrc)",
+      "Bash(source:*)",
+      "Bash(kill:*)",
+      "Bash(APP=\"/Users/kamal/Library/Developer/Xcode/DerivedData/Bolnicaapp-apiwmlzqocegqkatqkzwvoclfdlb/Build/Products/Debug-iphonesimulator/Bolnicaapp.app\")",
+      "Bash(/usr/libexec/PlistBuddy:*)",
+      "WebFetch(domain:www.teletebib.com)",
+      "WebSearch",
+      "Bash(xcrun devicectl:*)",
+      "Bash(instruments:*)",
+      "Bash(defaults read:*)",
+      "Bash(security find-identity:*)"
     ],
     "deny": [],
     "ask": []

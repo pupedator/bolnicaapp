@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct DoctorTimeSlotsView: View {
+    var doctor: Doctor? = nil
     @State private var selectedDayIndex = 0
     @State private var selectedSlot: String? = nil
     @State private var appeared = false
@@ -79,10 +80,10 @@ struct DoctorTimeSlotsView: View {
         .toolbar {
             ToolbarItem(placement: .principal) {
                 VStack(spacing: 2) {
-                    Text("Məmmədova Aynur Elçin qızı")
+                    Text(doctor?.name ?? "Həkim")
                         .font(.subheadline)
                         .fontWeight(.semibold)
-                    Text("Ümumi təcrübə həkimi")
+                    Text(doctor?.specialty ?? "")
                         .font(.caption)
                         .foregroundColor(Color(.secondaryLabel))
                 }

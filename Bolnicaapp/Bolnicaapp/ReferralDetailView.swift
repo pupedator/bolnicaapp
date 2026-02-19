@@ -102,7 +102,7 @@ struct ReferralDetailView: View {
             }
 
             // MARK: - Bottom button
-            Button(action: {}) {
+            NavigationLink(destination: ClinicPickerView()) {
                 Text("Növbə al")
                     .font(.headline)
                     .foregroundColor(.white)
@@ -114,9 +114,7 @@ struct ReferralDetailView: View {
             .padding(.horizontal)
             .padding(.bottom, 16)
             .padding(.top, 8)
-            .opacity(appeared ? 1 : 0)
-            .scaleEffect(appeared ? 1 : 0.95)
-            .animation(.spring(response: 0.5).delay(0.5), value: appeared)
+            .fadeIn(delay: 0.5)
         }
         .background(Color(.systemBackground))
         .navigationTitle("Göndəriş")

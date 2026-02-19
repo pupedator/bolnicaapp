@@ -44,12 +44,19 @@ struct ContentView: View {
                         }
                         .tag(1)
 
+                    ClinicsMapView()
+                        .tabItem {
+                            Image(systemName: selectedTab == 2 ? "map.fill" : "map")
+                            Text("Xəritə")
+                        }
+                        .tag(2)
+
                     MoreView()
                         .tabItem {
                             Image(systemName: "ellipsis")
                             Text("Əlavə")
                         }
-                        .tag(2)
+                        .tag(3)
                 }
                 .tint(.appBlue)
                 .transition(.opacity.combined(with: .scale(scale: 0.95)))

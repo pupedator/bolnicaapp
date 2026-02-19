@@ -133,34 +133,36 @@ struct MedicalCardView: View {
 
     @ViewBuilder
     func documentRow(icon: String, title: String, count: Int?) -> some View {
-        HStack(spacing: 12) {
-            Image(systemName: icon)
-                .font(.title3)
-                .foregroundColor(.appBlue)
-                .frame(width: 32, height: 32)
+        NavigationLink(destination: ClinicPickerView()) {
+            HStack(spacing: 12) {
+                Image(systemName: icon)
+                    .font(.title3)
+                    .foregroundColor(.appBlue)
+                    .frame(width: 32, height: 32)
 
-            Text(title)
-                .font(.body)
-                .foregroundColor(Color(.label))
+                Text(title)
+                    .font(.body)
+                    .foregroundColor(Color(.label))
 
-            Spacer()
+                Spacer()
 
-            if let count {
-                Text("\(count)")
-                    .font(.subheadline)
-                    .foregroundColor(Color(.secondaryLabel))
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 2)
-                    .background(Color.badgeBackground)
-                    .clipShape(Capsule())
+                if let count {
+                    Text("\(count)")
+                        .font(.subheadline)
+                        .foregroundColor(Color(.secondaryLabel))
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 2)
+                        .background(Color.badgeBackground)
+                        .clipShape(Capsule())
+                }
+
+                Image(systemName: "chevron.right")
+                    .font(.caption)
+                    .foregroundColor(Color(.tertiaryLabel))
             }
-
-            Image(systemName: "chevron.right")
-                .font(.caption)
-                .foregroundColor(Color(.tertiaryLabel))
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
         }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 12)
     }
 
     @ViewBuilder

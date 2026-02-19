@@ -1,7 +1,7 @@
 import Foundation
 import CoreLocation
 
-struct Clinic: Identifiable, Equatable {
+struct Clinic: Identifiable, Equatable, Hashable {
     let id: String
     let name: String
     let address: String
@@ -13,9 +13,10 @@ struct Clinic: Identifiable, Equatable {
     let doctors: [Doctor]
 
     static func == (lhs: Clinic, rhs: Clinic) -> Bool { lhs.id == rhs.id }
+    func hash(into hasher: inout Hasher) { hasher.combine(id) }
 }
 
-struct Doctor: Identifiable {
+struct Doctor: Identifiable, Hashable {
     let id = UUID()
     let name: String
     let specialty: String

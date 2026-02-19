@@ -52,12 +52,17 @@ class AuthManager {
         didSet { UserDefaults.standard.set(appearanceMode.rawValue, forKey: "appearanceMode") }
     }
 
+    var registeredClinicName: String {
+        didSet { UserDefaults.standard.set(registeredClinicName, forKey: "registeredClinicName") }
+    }
+
     init() {
         self.hasSeenOnboarding = UserDefaults.standard.bool(forKey: "hasSeenOnboarding")
         self.isLoggedIn = UserDefaults.standard.bool(forKey: "isLoggedIn")
         self.currentUserName = UserDefaults.standard.string(forKey: "userName") ?? ""
         self.currentUserPhone = UserDefaults.standard.string(forKey: "userPhone") ?? ""
         self.appearanceMode = AppearanceMode(rawValue: UserDefaults.standard.integer(forKey: "appearanceMode")) ?? .system
+        self.registeredClinicName = UserDefaults.standard.string(forKey: "registeredClinicName") ?? ""
     }
 
     func login(phone: String, password: String) -> Bool {
