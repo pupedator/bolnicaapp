@@ -5,6 +5,7 @@ struct DoctorTimeSlotsView: View {
     @State private var selectedDayIndex = 0
     @State private var selectedSlot: String? = nil
     @State private var appeared = false
+    @State private var showCalendarInfo = false
 
     let columns = Array(repeating: GridItem(.flexible(), spacing: 8), count: 6)
 
@@ -54,7 +55,7 @@ struct DoctorTimeSlotsView: View {
                     }
 
                     // Calendar link
-                    Button(action: {}) {
+                    Button(action: { showCalendarInfo = true }) {
                         HStack(spacing: 4) {
                             Image(systemName: "calendar")
                             Text("Təqvimdən seç")
@@ -77,6 +78,11 @@ struct DoctorTimeSlotsView: View {
         .background(Color.sectionBackground)
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
+        .alert("Təqvim", isPresented: $showCalendarInfo) {
+            Button("Bağla", role: .cancel) {}
+        } message: {
+            Text("Tarix seçmək üçün təqvim inteqrasiyası hazırlanır.")
+        }
         .toolbar {
             ToolbarItem(placement: .principal) {
                 VStack(spacing: 2) {

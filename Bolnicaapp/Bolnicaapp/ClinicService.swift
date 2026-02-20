@@ -26,7 +26,7 @@ struct Doctor: Identifiable, Hashable {
 }
 
 class ClinicService {
-    private let apiKey = "AIzaSyA195-91_OJdLwHUfG6RnrpAvKiEfZNqeo"
+    private let apiKey = Secrets.googlePlacesAPIKey
 
     func fetchNearbyClinics(latitude: Double, longitude: Double) async -> [Clinic] {
         let urlString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=\(latitude),\(longitude)&radius=5000&type=hospital&keyword=poliklinika|klinika|xəstəxana&language=az&key=\(apiKey)"

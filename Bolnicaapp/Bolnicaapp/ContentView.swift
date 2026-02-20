@@ -22,12 +22,9 @@ struct ContentView: View {
     @ViewBuilder
     private var mainContent: some View {
         Group {
-            if !auth.hasSeenOnboarding {
+            if !auth.isLoggedIn {
                 OnboardingView()
                     .transition(.opacity)
-            } else if !auth.isLoggedIn {
-                LoginView()
-                    .transition(.opacity.combined(with: .move(edge: .trailing)))
             } else {
                 TabView(selection: $selectedTab) {
                     HomeView()
@@ -62,7 +59,6 @@ struct ContentView: View {
                 .transition(.opacity.combined(with: .scale(scale: 0.95)))
             }
         }
-        .animation(.smooth(duration: 0.5), value: auth.hasSeenOnboarding)
         .animation(.smooth(duration: 0.5), value: auth.isLoggedIn)
     }
 }

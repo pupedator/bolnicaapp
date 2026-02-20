@@ -5,6 +5,9 @@ struct CabinetView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var editingName = false
     @State private var draftName = ""
+    @State private var showNotificationsInfo = false
+    @State private var showChangePasswordInfo = false
+    @State private var showHelpInfo = false
 
     var body: some View {
         ScrollView(showsIndicators: false) {
@@ -135,16 +138,44 @@ struct CabinetView: View {
 
     private var actionsSection: some View {
         VStack(spacing: 0) {
-            actionRow(icon: "bell.fill", label: "Bildirişlər", iconColor: .orange)
+            Button { showNotificationsInfo = true } label: {
+                actionRow(icon: "bell.fill", label: "Bildirişlər", iconColor: .orange)
+            }
+            .buttonStyle(.plain)
+
             Divider().padding(.leading, 56)
-            actionRow(icon: "lock.fill", label: "Şifrəni dəyiş", iconColor: .appBlue)
+
+            Button { showChangePasswordInfo = true } label: {
+                actionRow(icon: "lock.fill", label: "Şifrəni dəyiş", iconColor: .appBlue)
+            }
+            .buttonStyle(.plain)
+
             Divider().padding(.leading, 56)
-            actionRow(icon: "questionmark.circle.fill", label: "Yardım", iconColor: Color(red: 0.3, green: 0.7, blue: 0.5))
+
+            Button { showHelpInfo = true } label: {
+                actionRow(icon: "questionmark.circle.fill", label: "Yardım", iconColor: Color(red: 0.3, green: 0.7, blue: 0.5))
+            }
+            .buttonStyle(.plain)
         }
         .background(Color.cardBackground)
         .clipShape(RoundedRectangle(cornerRadius: 18))
         .padding(.horizontal)
         .fadeIn(delay: 0.2)
+        .alert("Bildirişlər", isPresented: $showNotificationsInfo) {
+            Button("Bağla", role: .cancel) {}
+        } message: {
+            Text("Bildiriş tənzimləmələri hazırda mövcud deyil.")
+        }
+        .alert("Şifrəni dəyiş", isPresented: $showChangePasswordInfo) {
+            Button("Bağla", role: .cancel) {}
+        } message: {
+            Text("Şifrənizi dəyişmək üçün destek@etebib.az ünvanına müraciət edin.")
+        }
+        .alert("Yardım", isPresented: $showHelpInfo) {
+            Button("Bağla", role: .cancel) {}
+        } message: {
+            Text("Yardım üçün destek@etebib.az ünvanına e-poçt göndərin.")
+        }
     }
 
     // MARK: - Helpers

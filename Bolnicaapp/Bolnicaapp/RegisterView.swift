@@ -82,7 +82,7 @@ struct RegisterView: View {
                                 Image(systemName: "lock")
                                     .foregroundColor(.appBlue)
                                     .frame(width: 24)
-                                SecureField("Minimum 6 simvol", text: $password)
+                                SecureField("Minimum 8 simvol, 1 rəqəm", text: $password)
                             }
                             .padding(14)
                             .background(Color(.tertiarySystemFill))
@@ -170,18 +170,18 @@ struct RegisterView: View {
     }
 
     private func handleRegister() {
-        guard !fullName.isEmpty else {
+        guard !fullName.trimmingCharacters(in: .whitespaces).isEmpty else {
             errorMessage = "Ad və Soyad boş ola bilməz"
             showError = true
             return
         }
-        guard !phone.isEmpty else {
-            errorMessage = "Telefon nömrəsi boş ola bilməz"
+        guard AuthManager.isValidAzerbaijaniPhone(phone) else {
+            errorMessage = "Düzgün telefon nömrəsi daxil edin (+994XXXXXXXXX və ya 0XXXXXXXXX)"
             showError = true
             return
         }
-        guard password.count >= 6 else {
-            errorMessage = "Şifrə minimum 6 simvol olmalıdır"
+        guard AuthManager.isValidPassword(password) else {
+            errorMessage = "Şifrə minimum 8 simvol olmalı və ən azı 1 rəqəm içərməlidir"
             showError = true
             return
         }

@@ -105,10 +105,10 @@ struct HomeView: View {
                         VStack(spacing: 6) {
                             Image(systemName: cat.icon)
                                 .font(.title3)
-                                .foregroundColor(Color.appBlue.opacity(0.7))
+                                .foregroundColor(Color.appBlue)
                         }
                         .frame(width: 110, height: 80)
-                        .background(Color(red: 0.86, green: 0.88, blue: 1.0))
+                        .background(Color.appBlue.opacity(0.12))
                         .cornerRadius(18)
                     }
                     .fadeIn(delay: Double(index) * 0.06)
@@ -215,6 +215,8 @@ struct FrequentCard: View {
     let iconColor: Color
     let bgColor: Color
 
+    @Environment(\.colorScheme) private var colorScheme
+
     var body: some View {
         VStack(spacing: 10) {
             ZStack {
@@ -223,11 +225,11 @@ struct FrequentCard: View {
             }
             Text(title)
                 .font(.caption).fontWeight(.medium)
-                .foregroundColor(Color(.label))
+                .foregroundColor(colorScheme == .dark ? .white : .black)
                 .multilineTextAlignment(.center)
         }
         .frame(width: 110, height: 120)
-        .background(bgColor)
+        .background(colorScheme == .dark ? iconColor.opacity(0.15) : bgColor)
         .cornerRadius(20)
     }
 }

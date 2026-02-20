@@ -6,7 +6,10 @@ struct LoginView: View {
     @State private var password = ""
     @State private var showRegister = false
     @State private var showError = false
+    @State private var showForgotPassword = false
+    @State private var errorMessage = ""
     @State private var appeared = false
+    @State private var showDigitalID = false
 
     var body: some View {
         NavigationStack {
@@ -21,7 +24,7 @@ struct LoginView: View {
                                 .opacity(appeared ? 1 : 0)
                                 .scaleEffect(appeared ? 1 : 0.5)
 
-                            Text("Təbibim")
+                            Text("eTebib")
                                 .font(.largeTitle)
                                 .fontWeight(.bold)
                                 .foregroundColor(Color(.label))
@@ -78,9 +81,11 @@ struct LoginView: View {
                             // Forgot password
                             HStack {
                                 Spacer()
-                                Button("Şifrəni unutdun?") {}
-                                    .font(.subheadline)
-                                    .foregroundColor(.appBlue)
+                                Button("Şifrəni unutdun?") {
+                                    showForgotPassword = true
+                                }
+                                .font(.subheadline)
+                                .foregroundColor(.appBlue)
                             }
                         }
                         .padding(.horizontal)
@@ -108,15 +113,61 @@ struct LoginView: View {
                     }
                 }
 
-                // Bottom button
-                Button(action: handleLogin) {
-                    Text("Daxil ol")
-                        .font(.headline)
+                // Lockout warning
+                if auth.isLockedOut {
+                    HStack(spacing: 6) {
+                        Image(systemName: "lock.fill")
+                            .font(.caption)
+                        Text("Hesab müvəqqəti bloklanıb. \(auth.lockoutRemainingSeconds)s")
+                            .font(.caption)
+                    }
+                    .foregroundColor(.orange)
+                    .padding(.vertical, 6)
+                }
+
+                // Bottom buttons
+                VStack(spacing: 12) {
+                    // Main login button
+                    Button(action: handleLogin) {
+                        Text("Daxil ol")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 16)
+                            .background(auth.isLockedOut ? Color.gray : Color.appBlue)
+                            .cornerRadius(16)
+                    }
+                    .disabled(auth.isLockedOut)
+
+                    // OR divider
+                    HStack(spacing: 12) {
+                        Rectangle()
+                            .fill(Color(.separator))
+                            .frame(height: 1)
+                        Text("və ya")
+                            .font(.caption)
+                            .foregroundColor(Color(.tertiaryLabel))
+                        Rectangle()
+                            .fill(Color(.separator))
+                            .frame(height: 1)
+                    }
+
+                    // Digital ID button
+                    Button(action: { showDigitalID = true }) {
+                        HStack(spacing: 8) {
+                            Image(systemName: "person.crop.rectangle.badge.checkmark")
+                                .font(.body)
+                            Text("digital login")
+                                .font(.system(size: 16, weight: .semibold))
+                            Text("•")
+                                .font(.system(size: 18, weight: .bold))
+                        }
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 16)
                         .background(Color.appBlue)
                         .cornerRadius(16)
+                    }
                 }
                 .padding(.horizontal)
                 .padding(.bottom, 16)
@@ -129,10 +180,18 @@ struct LoginView: View {
             .alert("Xəta", isPresented: $showError) {
                 Button("OK", role: .cancel) {}
             } message: {
-                Text("Telefon nömrəsi və şifrə boş ola bilməz")
+                Text(errorMessage)
+            }
+            .alert("Şifrəni sıfırla", isPresented: $showForgotPassword) {
+                Button("Bağla", role: .cancel) {}
+            } message: {
+                Text("Şifrənizi bərpa etmək üçün +994 12 000 00 00 nömrəsinə zəng edin və ya destek@etebib.az ünvanına e-poçt göndərin.")
             }
             .navigationDestination(isPresented: $showRegister) {
                 RegisterView()
+            }
+            .navigationDestination(isPresented: $showDigitalID) {
+                DigitalIDView()
             }
             .onAppear {
                 withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
@@ -144,7 +203,17 @@ struct LoginView: View {
 
     private func handleLogin() {
         withAnimation(.spring(response: 0.3)) {
-            if !auth.login(phone: phone, password: password) {
+            let result = auth.login(phone: phone, password: password)
+            switch result {
+            case .success:
+                break
+            case .invalidInput:
+                errorMessage = "Düzgün telefon nömrəsi (+994XXXXXXXXX) və şifrə daxil edin"
+                showError = true
+            case .lockedOut(let until):
+                let formatter = DateFormatter()
+                formatter.timeStyle = .short
+                errorMessage = "Hesab müvəqqəti bloklanıb. \(formatter.string(from: until)) tarixinə qədər cəhd edin."
                 showError = true
             }
         }

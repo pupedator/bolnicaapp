@@ -34,6 +34,10 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         }
     }
 
+    func requestSingleUpdate() {
+        manager.startUpdatingLocation()
+    }
+
     func distanceTo(lat: Double, lng: Double) -> String? {
         guard let user = userLocation else { return nil }
         let userLoc = CLLocation(latitude: user.latitude, longitude: user.longitude)

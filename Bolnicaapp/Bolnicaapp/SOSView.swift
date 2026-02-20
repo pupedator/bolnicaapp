@@ -6,6 +6,7 @@ struct SOSView: View {
     @Environment(LocationManager.self) private var locationManager
     @State private var confirmingNumber: EmergencyContact? = nil
     @State private var pulse = false
+    @State private var showCopyConfirm = false
 
     let contacts = EmergencyContact.all
 
@@ -66,7 +67,10 @@ struct SOSView: View {
             }
             .background(Color(.systemBackground))
             .navigationBarHidden(true)
-            .onAppear { pulse = true }
+            .onAppear {
+                pulse = true
+                locationManager.requestSingleUpdate()
+            }
             .confirmationDialog(
                 confirmingNumber.map { "Zəng: \($0.number)" } ?? "",
                 isPresented: Binding(
@@ -86,6 +90,16 @@ struct SOSView: View {
                     Text("\(contact.label) – \(contact.number)")
                 }
             }
+            .alert("Koordinatları kopyala?", isPresented: $showCopyConfirm) {
+                Button("Kopyala") {
+                    if let loc = locationManager.userLocation {
+                        UIPasteboard.general.string = String(format: "%.3f, %.3f", loc.latitude, loc.longitude)
+                    }
+                }
+                Button("Ləğv et", role: .cancel) {}
+            } message: {
+                Text("Cari yerinizin koordinatları mübadilə buferinə kopyalanacaq.")
+            }
         }
     }
 
@@ -97,7 +111,7 @@ struct SOSView: View {
                 .font(.caption)
                 .foregroundColor(.appBlue)
             if let loc = locationManager.userLocation {
-                Text(String(format: "%.5f, %.5f", loc.latitude, loc.longitude))
+                Text(String(format: "%.3f, %.3f", loc.latitude, loc.longitude))
                     .font(.caption)
                     .foregroundColor(Color(.secondaryLabel))
             } else {
@@ -110,8 +124,8 @@ struct SOSView: View {
                 .font(.caption)
                 .foregroundColor(.appBlue)
                 .onTapGesture {
-                    if let loc = locationManager.userLocation {
-                        UIPasteboard.general.string = "\(loc.latitude), \(loc.longitude)"
+                    if locationManager.userLocation != nil {
+                        showCopyConfirm = true
                     }
                 }
         }

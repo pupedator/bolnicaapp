@@ -29,7 +29,7 @@ struct SplashView: View {
 
                 // App name
                 VStack(spacing: 4) {
-                    Text("Təbibim")
+                    Text("eTebib")
                         .font(.system(size: 36, weight: .bold, design: .rounded))
                         .foregroundColor(.white)
 

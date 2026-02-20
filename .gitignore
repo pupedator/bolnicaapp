@@ -1,1 +1,4 @@
 .claude/
+
+# Secret keys — never commit
+Bolnicaapp/Bolnicaapp/Secrets.swift
